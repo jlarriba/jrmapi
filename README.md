@@ -9,17 +9,19 @@ mput /Papers
 ```
 
 # api support
-- [] authentication
+- [ ] authentication
 - [x] list documents
 - [x] download a pdf (inside a zip)
 - [x] download an epub (inside a zip)
-- [] extract the document from the downloaded zip file and rename it correctly
+- [ ] extract the document from the downloaded zip file and rename it correctly
 - [x] create new directory
 - [x] upload a pdf
-- [] upload an epub
-- [] move a file
+- [ ] upload an epub
+- [ ] move a file
 - [x] delete an entry (document or directory)
-- [] improved error control
+- [ ] improved error control
+- [ ] add tests
+- [ ] provide javadoc documentation
 
 # thanks
 Many thanks to the incredible https://github.com/juruen/rmapi project, it provides a lot of insight. The documents compiled in https://github.com/splitbrain/ReMarkableAPI are also a must for reMarkable API development.
