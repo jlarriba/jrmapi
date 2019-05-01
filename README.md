@@ -4,10 +4,6 @@ jrmapi is a wrapper over the REST Cloud API for the reMarkable e-paper tablet im
 # usage
 It is currently in an initial stage of development, so, even if it supports mostly all the file API operations, it currently does not yet support authentication. To use it you must generate a user token yourself and put it in the attribute USER_TOKEN in the class Authentication.
 
-```
-mput /Papers
-```
-
 # api support
 - [ ] authentication
 - [x] list documents
