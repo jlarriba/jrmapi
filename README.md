@@ -11,7 +11,7 @@ So, to use this API, first download and install rmapi, start it for the first ti
 - [x] list documents
 - [x] download a pdf (inside a zip)
 - [x] download an epub (inside a zip)
-- [ ] extract the document from the downloaded zip file and rename it correctly
+- [x] extract the document from the downloaded zip file and rename it correctly
 - [x] create new directory
 - [x] upload a pdf
 - [ ] upload an epub
