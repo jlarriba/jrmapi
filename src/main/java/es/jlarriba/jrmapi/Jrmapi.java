@@ -29,6 +29,9 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,6 +77,21 @@ public class Jrmapi {
         File file = new File(path + doc.getVissibleName() + ".zip");
         LOGGER.debug("Download file to " + path + doc.getVissibleName() + ".zip");
         net.getStream(docs.get(0).getBlobURLGet(), userToken, file);
+
+        try {
+            new ZipFile(file.getAbsolutePath()).extractFile(doc.getID() + ".epub", path, doc.getVissibleName() + ".epub");
+            LOGGER.debug("Unzipped epub to " + path + doc.getVissibleName() + ".epub");
+            file.delete();
+        } catch (ZipException e) {
+            LOGGER.debug("No epub, trying pdf...");
+            try {
+                new ZipFile(file.getAbsolutePath()).extractFile(doc.getID() + ".pdf", path, doc.getVissibleName() + ".pdf");
+                LOGGER.debug("Unzipped pdf to " + path + doc.getVissibleName() + ".pdf");
+                file.delete();
+            } catch (ZipException ze) {
+                LOGGER.error("Error unzipping file", e);
+            }
+        }
     }
     
     public void createDir(String name, String parentID) {
