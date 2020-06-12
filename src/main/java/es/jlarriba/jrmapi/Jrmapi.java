@@ -17,7 +17,7 @@ package es.jlarriba.jrmapi;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import es.jlarriba.jrmapi.http.HttpClient;
+import es.jlarriba.jrmapi.http.Net;
 import es.jlarriba.jrmapi.model.DeleteDocument;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,24 +48,24 @@ public class Jrmapi {
     
     private final Gson gson;
     private final String userToken;
-    private final HttpClient http;
+    private final Net net;
     
     public Jrmapi() {
         Authentication auth = new Authentication();
-        userToken = auth.newUserToken();
-        http = new HttpClient();
+        userToken = auth.userToken();
+        net = new Net();
         gson = new Gson();
     }
     
     public List<Document> listDocs() {
         
-        String response = http.get(LIST_DOCS, userToken);
+        String response = net.get(LIST_DOCS, userToken);
         LOGGER.debug(response);
         return gson.fromJson(response, new TypeToken<List<Document>>(){}.getType());
     }
     
     public void fetchDoc(Document doc, String path) {
-        String response = http.get(LIST_DOCS, userToken, doc.getID());
+        String response = net.get(LIST_DOCS, userToken, doc.getID());
         List<Document> docs = gson.fromJson(response, new TypeToken<List<Document>>(){}.getType());
         if (path.charAt(path.length() - 1) == '/') 
             path += "";
@@ -73,7 +73,7 @@ public class Jrmapi {
             path += "/";
         File file = new File(path + doc.getVissibleName() + ".zip");
         LOGGER.debug("Download file to " + path + doc.getVissibleName() + ".zip");
-        http.getStream(docs.get(0).getBlobURLGet(), userToken, file);
+        net.getStream(docs.get(0).getBlobURLGet(), userToken, file);
     }
     
     public void createDir(String name, String parentID) {
@@ -85,10 +85,10 @@ public class Jrmapi {
         
         List<Object> uploadRequest = new ArrayList<>();
         uploadRequest.add(docRequest);
-        String response = http.put(UPLOAD_REQUEST, userToken, uploadRequest);
+        String response = net.put(UPLOAD_REQUEST, userToken, uploadRequest);
         
         List<UploadDocumentResponse> docResponse = gson.fromJson(response, new TypeToken<List<UploadDocumentResponse>>(){}.getType());
-        http.putStream(docResponse.get(0).getBlobURLPut(), userToken, Utils.createZipDirectory(id));
+        net.putStream(docResponse.get(0).getBlobURLPut(), userToken, Utils.createZipDirectory(id));
         
         MetadataDocument metadataDoc = new MetadataDocument();
         metadataDoc.setID(id);
@@ -101,7 +101,7 @@ public class Jrmapi {
         List<Object> uploadMetadataDoc = new ArrayList<>();
         uploadMetadataDoc.add(metadataDoc);
         
-        http.put(UPDATE_STATUS, userToken, uploadMetadataDoc);
+        net.put(UPDATE_STATUS, userToken, uploadMetadataDoc);
     }
     
     public void uploadDoc(File file, String parentID) {
@@ -113,10 +113,10 @@ public class Jrmapi {
         
         List<Object> uploadRequest = new ArrayList<>();
         uploadRequest.add(docRequest);
-        String response = http.put(UPLOAD_REQUEST, userToken, uploadRequest);
+        String response = net.put(UPLOAD_REQUEST, userToken, uploadRequest);
         
         List<UploadDocumentResponse> docResponse = gson.fromJson(response, new TypeToken<List<UploadDocumentResponse>>(){}.getType());
-        http.putStream(docResponse.get(0).getBlobURLPut(), userToken, Utils.createZipDocument(id, file));
+        net.putStream(docResponse.get(0).getBlobURLPut(), userToken, Utils.createZipDocument(id, file));
         
         MetadataDocument metadataDoc = new MetadataDocument();
         metadataDoc.setID(id);
@@ -129,7 +129,7 @@ public class Jrmapi {
         List<Object> uploadMetadataDoc = new ArrayList<>();
         uploadMetadataDoc.add(metadataDoc);
         
-        http.put(UPDATE_STATUS, userToken, uploadMetadataDoc);
+        net.put(UPDATE_STATUS, userToken, uploadMetadataDoc);
     }
     
     public void deleteEntry(Document doc) {
@@ -140,7 +140,7 @@ public class Jrmapi {
         List<Object> uploadDeleteDoc = new ArrayList<>();
         uploadDeleteDoc.add(deleteDoc);
         
-        http.put(DELETE, userToken, uploadDeleteDoc);
+        net.put(DELETE, userToken, uploadDeleteDoc);
     }
     
     public void moveEntry(Document doc) {

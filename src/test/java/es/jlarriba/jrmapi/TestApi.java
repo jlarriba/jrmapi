@@ -34,8 +34,10 @@ public class TestApi {
     public void testListDocs() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Jrmapi api = new Jrmapi();
-        //List<Document> docs = api.listDocs();
-        //System.out.println(gson.toJson(docs));
+        //Authentication auth = new Authentication();
+        //System.out.println(auth.userToken());
+        List<Document> docs = api.listDocs();
+        System.out.println(gson.toJson(docs));
         //api.fetchDoc(docs.get(1), "/a/download/directory");
         //api.createDir("test_api", "");
         /*Document doc = new Document();
