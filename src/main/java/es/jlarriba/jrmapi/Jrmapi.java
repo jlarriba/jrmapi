@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import es.jlarriba.jrmapi.http.Net;
 import es.jlarriba.jrmapi.model.DeleteDocument;
+
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import es.jlarriba.jrmapi.model.Document;
@@ -58,6 +60,10 @@ public class Jrmapi {
         userToken = auth.userToken();
         net = new Net();
         gson = new Gson();
+        File workdir = new File(Utils.WORKDIR);
+        if (!workdir.exists()) {
+            workdir.mkdir();
+        }
     }
     
     public List<Document> listDocs() {
@@ -74,8 +80,8 @@ public class Jrmapi {
             path += "";
         else 
             path += "/";
-        File file = new File(path + doc.getVissibleName() + ".zip");
-        LOGGER.debug("Download file to " + path + doc.getVissibleName() + ".zip");
+        File file = new File(Utils.WORKDIR + doc.getVissibleName() + ".zip");
+        LOGGER.debug("Download file to " + Utils.WORKDIR + doc.getVissibleName() + ".zip");
         net.getStream(docs.get(0).getBlobURLGet(), userToken, file);
 
         try {
@@ -98,14 +104,14 @@ public class Jrmapi {
         String response = net.get(LIST_DOCS, userToken, doc.getID());
         List<Document> docs = gson.fromJson(response, new TypeToken<List<Document>>(){}.getType());
 
-        File zipFile = new File(System.getenv("HOME") + "/" + doc.getVissibleName() + ".zip");
-        LOGGER.debug("Download zip to " + System.getenv("HOME") + "/" + doc.getVissibleName() + ".zip");
+        File zipFile = new File(Utils.WORKDIR + doc.getVissibleName() + ".zip");
+        LOGGER.debug("Download zip to " + Utils.WORKDIR + doc.getVissibleName() + ".zip");
         net.getStream(docs.get(0).getBlobURLGet(), userToken, zipFile);
 
         try {
             new ZipFile(zipFile.getAbsolutePath()).extractFile(doc.getID() + ".pdf", path, filename);
             LOGGER.debug("Unzipped pdf to " + path + doc.getVissibleName() + ".pdf");
-            zipFile.delete();
+            //zipFile.delete();
         } catch (ZipException e) {
             LOGGER.error("Error unzipping file", e);
         }
@@ -152,6 +158,7 @@ public class Jrmapi {
         
         List<UploadDocumentResponse> docResponse = gson.fromJson(response, new TypeToken<List<UploadDocumentResponse>>(){}.getType());
         net.putStream(docResponse.get(0).getBlobURLPut(), userToken, Utils.createZipDocument(id, file));
+        Utils.clean(id, file);
         
         MetadataDocument metadataDoc = new MetadataDocument();
         metadataDoc.setID(id);

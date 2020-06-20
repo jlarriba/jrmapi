@@ -21,6 +21,7 @@ import java.util.Map;
  * {
  *      "extraMetadata":{},
  *      "fileType":"epub",
+ *      "pageCount":0,
  *      "lastOpenedPage":0,
  *      "lineHeight":-1,
  *      "margins":180,
@@ -32,6 +33,7 @@ import java.util.Map;
 public class Content {
     private Map<String, String> extraMetadata;
     private String fileType;
+    private int pageCount;
     private int lastOpenedPage;
     private int lineHeight;
     private int margins;
@@ -64,6 +66,14 @@ public class Content {
      */
     public void setFileType(String fileType) {
         this.fileType = fileType;
+    }
+
+    public int getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
     }
 
     /**
