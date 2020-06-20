@@ -93,6 +93,23 @@ public class Jrmapi {
             }
         }
     }
+
+    public void exportPdf(Document doc, String path, String filename) {
+        String response = net.get(LIST_DOCS, userToken, doc.getID());
+        List<Document> docs = gson.fromJson(response, new TypeToken<List<Document>>(){}.getType());
+
+        File zipFile = new File(System.getenv("HOME") + "/" + doc.getVissibleName() + ".zip");
+        LOGGER.debug("Download zip to " + System.getenv("HOME") + "/" + doc.getVissibleName() + ".zip");
+        net.getStream(docs.get(0).getBlobURLGet(), userToken, zipFile);
+
+        try {
+            new ZipFile(zipFile.getAbsolutePath()).extractFile(doc.getID() + ".pdf", path, filename);
+            LOGGER.debug("Unzipped pdf to " + path + doc.getVissibleName() + ".pdf");
+            zipFile.delete();
+        } catch (ZipException e) {
+            LOGGER.error("Error unzipping file", e);
+        }
+    }
     
     public void createDir(String name, String parentID) {
         String id = UUID.randomUUID().toString();
