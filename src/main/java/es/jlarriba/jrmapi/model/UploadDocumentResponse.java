@@ -24,7 +24,7 @@ import java.util.Date;
         "Version": 1,
         "Message": "",
         "Success": true,
-        "BlobURLPut": "https://storage.googleapis.com/remarkable-production-document-storage/user-auth0%7C5c0675464df2a410aeb2feb2/1dd71dfc-a463-4317-9428-ece0bff128b9?Expires=1556208172&GoogleAccessId=remarkable-production%40appspot.gserviceaccount.com&Signature=Lmf%2B5IKZ7yzRbMvRfSfAOpINHffkcV0jWuhhNC8dto3t%2BJgCGF6BPLaLjcwM%2F5%2BrGaAUn68Kqv%2B9g6hiaeD0dcWnbt6SN%2BoxbhPFj3Jb1EqgCNA9F2X7BXEdbIRTNY1gpNyS5Pyaa33FmgRBtdGbIBmvDnt9NrFgtgucZdgiSH9DYXVU5iSfDKxv%2FDvUOcQdIkIcPQJ5fpIZLKJSeDoMDXh4KKsRqlP4Xokw%2FXpi2pB3DSf0WDa59hvr5pVrw%2FQxrxNcuMNsssrGE4%2BiE4ZyO3LJMENvrCcjagiURwbWJa7CzTw3kTGqBErqU9AqdEIaEfOM%2FU4YKdscuYfcJelLJQ%3D%3D",
+        "BlobURLPut": "generated-url,
         "BlobURLPutExpires": "2019-04-25T16:02:52.536577772Z"
     }
 ]

@@ -17,10 +17,10 @@ package es.jlarriba.jrmapi;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import es.jlarriba.jrmapi.commonsio.FilenameUtils;
 import es.jlarriba.jrmapi.http.Net;
 import es.jlarriba.jrmapi.model.DeleteDocument;
 
-import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 import es.jlarriba.jrmapi.model.Document;
@@ -34,7 +34,6 @@ import java.util.UUID;
 
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

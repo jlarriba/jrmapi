@@ -16,6 +16,7 @@
 package es.jlarriba.jrmapi;
 
 import com.google.gson.Gson;
+import es.jlarriba.jrmapi.commonsio.FilenameUtils;
 import es.jlarriba.jrmapi.model.Content;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,13 +24,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,6 +41,8 @@ public class Utils {
     
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String WORKDIR = System.getProperty("user.home") + "/.jrmapi/";
+    private static final int NOT_FOUND = -1;
+    public static final char EXTENSION_SEPARATOR = '.';
     
     public static File createZipDirectory(String id) {
         try {
@@ -80,8 +82,8 @@ public class Utils {
             String ext = FilenameUtils.getExtension(file.getAbsolutePath());
             File destFile = new File(pathId + "." + ext);
             destFile.createNewFile();
-            
-            FileUtils.copyFile(file, destFile);
+
+            Files.copy(file.toPath(), destFile.toPath());
             
             File pagedata = new File(pathId + ".pagedata");
             pagedata.createNewFile();

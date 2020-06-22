@@ -21,7 +21,6 @@ import java.io.File;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import es.jlarriba.jrmapi.model.Document;
-import org.apache.commons.io.FilenameUtils;
 
 /**
  *
