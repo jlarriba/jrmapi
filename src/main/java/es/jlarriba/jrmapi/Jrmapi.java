@@ -156,7 +156,9 @@ public class Jrmapi {
         String response = net.put(UPLOAD_REQUEST, userToken, uploadRequest);
         
         List<UploadDocumentResponse> docResponse = gson.fromJson(response, new TypeToken<List<UploadDocumentResponse>>(){}.getType());
-        net.putStream(docResponse.get(0).getBlobURLPut(), userToken, Utils.createZipDocument(id, file));
+        File doc = Utils.createZipDocument(id, file);
+        LOGGER.debug("Doc: " + doc);
+        net.putStream(docResponse.get(0).getBlobURLPut(), userToken, doc);
         Utils.clean(id, file);
         
         MetadataDocument metadataDoc = new MetadataDocument();

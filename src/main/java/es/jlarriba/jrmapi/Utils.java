@@ -81,7 +81,6 @@ public class Utils {
             String pathId = WORKDIR + id;
             String ext = FilenameUtils.getExtension(file.getAbsolutePath());
             File destFile = new File(pathId + "." + ext);
-            destFile.createNewFile();
 
             Files.copy(file.toPath(), destFile.toPath());
             
