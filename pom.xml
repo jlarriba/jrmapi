@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.jlarriba</groupId>
     <artifactId>jrmapi</artifactId>
-    <version>0.6</version>
+    <version>0.7-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
