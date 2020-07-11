@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>es.jlarriba</groupId>
     <artifactId>jrmapi</artifactId>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.6</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>net.lingala.zip4j</groupId>
             <artifactId>zip4j</artifactId>
-            <version>2.6.2-SNAPSHOT</version>
+            <version>2.6.2</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
