@@ -16,6 +16,15 @@ It reads the auth tokens from the ~/.rmapi file stored by rmapi with the usertok
 
 So, to use this API, first download and install rmapi, start it for the first time, associate it to your remarkable account. It will generate the .rmapi file and from then, you can use it to traverse your remarkable cloud with jrmapi.
 
+# build
+It can be build with Maven:
+
+```
+mvn package
+```
+
+However, it uses a custom version of the zip4j library that must be in your local repository. Build zip4j from: https://github.com/jlarriba/zip4j, install it in your local repository and run `mvn package`.
+
 # api support
 - [x] authentication
 - [x] list documents
