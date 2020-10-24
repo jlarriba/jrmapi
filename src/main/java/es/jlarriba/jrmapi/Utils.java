@@ -41,7 +41,7 @@ public class Utils {
     
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String WORKDIR = System.getProperty("user.home") + "/.jrmapi/";
-    private static final int NOT_FOUND = -1;
+    // private static final int NOT_FOUND = -1;
     public static final char EXTENSION_SEPARATOR = '.';
     
     public static File createZipDirectory(String id) {

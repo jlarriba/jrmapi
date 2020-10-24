@@ -23,27 +23,28 @@ import org.junit.jupiter.api.Test;
 import es.jlarriba.jrmapi.model.Document;
 
 /**
- *
+ * Integration Test.
+ * 
  * @author juanlarriba
  */
-
 public class TestApi {
     
     @Test
     public void testListDocs() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        //Jrmapi api = new Jrmapi();
-        //Authentication auth = new Authentication();
-        //System.out.println(auth.userToken());
-        //List<Document> docs = api.listDocs();
-        //System.out.println(gson.toJson(docs));
-        //api.fetchDoc(docs.get(1), "/a/download/directory");
-        //api.createDir("test_api", "");
-        /*Document doc = new Document();
+        Jrmapi api = new Jrmapi();
+        Authentication auth = new Authentication();
+        System.out.println(auth.userToken());
+        List<Document> docs = api.listDocs();
+        System.out.println(gson.toJson(docs));
+/*        
+        api.fetchDoc(docs.get(1), "/a/download/directory");
+        api.createDir("test_api", "");
+        Document doc = new Document();
         doc.setID("b55b09b6-c636-4f9a-8309-2a0faa13a07b");
         doc.setVersion(1);
-        api.deleteEntry(doc);*/
-        
-        //api.uploadDoc(new File("/a/pdf/file.pdf"), "");
+        api.deleteEntry(doc);
+        api.uploadDoc(new File("/a/pdf/file.pdf"), "");
+*/        
     }
 }

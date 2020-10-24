@@ -66,7 +66,6 @@ public class Jrmapi {
     }
     
     public List<Document> listDocs() {
-        
         String response = net.get(LIST_DOCS, userToken);
         LOGGER.debug(response);
         return gson.fromJson(response, new TypeToken<List<Document>>(){}.getType());
