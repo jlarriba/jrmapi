@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublisher;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
@@ -16,6 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
+ * HTTP methods.
  *
  * @author jlarriba
  */
@@ -52,8 +54,16 @@ public class Net {
     }
     
     public String post(String url, String token) {
+        return post(url, token, BodyPublishers.noBody());
+    }
+    
+    public String post(String url, String token, Object payload) {
+        return post(url, token, BodyPublishers.ofString(new Gson().toJson(payload)));
+    }
+    
+    private String post(String url, String token, BodyPublisher bodyPublisher) {
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
-                .POST(BodyPublishers.noBody())
+                .POST(bodyPublisher)
                 .header("Authorization", "Bearer " + token)
                 .header("Content-Type", "application/json")
                 //.header("Content-Length", "0")
@@ -75,7 +85,6 @@ public class Net {
     }
 
     public String putStream(String url, String token, File file) {
-        
         try {
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
                 .PUT(BodyPublishers.ofFile(file.toPath()))
@@ -100,7 +109,7 @@ public class Net {
             if (response.statusCode() == 200) {
                 res = response.body();
             } else {
-                LOGGER.debug(response.body());
+                LOGGER.warn(response.body());
             }
         } catch (IOException | InterruptedException e) {
             LOGGER.error("Error while launching request", e);
