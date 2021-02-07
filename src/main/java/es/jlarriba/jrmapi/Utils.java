@@ -54,7 +54,7 @@ public class Utils {
             FileOutputStream fos = new FileOutputStream(WORKDIR + "jrmapi.zip");
             ZipOutputStream zipOut = new ZipOutputStream(fos);
             File fileToZip = new File(sourceFile);
-            FileInputStream fis = new FileInputStream(fileToZip);
+            FileInputStream fis = new FileInputStream(WORKDIR + fileToZip);
             ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
             zipOut.putNextEntry(zipEntry);
             
