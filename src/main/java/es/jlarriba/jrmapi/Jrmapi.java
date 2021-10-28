@@ -20,9 +20,6 @@ import com.google.gson.reflect.TypeToken;
 import es.jlarriba.jrmapi.commonsio.FilenameUtils;
 import es.jlarriba.jrmapi.http.Net;
 import es.jlarriba.jrmapi.model.DeleteDocument;
-
-import java.util.ArrayList;
-import java.util.List;
 import es.jlarriba.jrmapi.model.Document;
 import es.jlarriba.jrmapi.model.MetadataDocument;
 import es.jlarriba.jrmapi.model.UploadDocumentRequest;
@@ -30,8 +27,9 @@ import es.jlarriba.jrmapi.model.UploadDocumentResponse;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
-
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.logging.log4j.LogManager;
@@ -50,15 +48,21 @@ public class Jrmapi {
     private static final String UPLOAD_REQUEST = BASE_URL + "/document-storage/json/2/upload/request";
     private static final String DELETE = BASE_URL + "/document-storage/json/2/delete";
     
-    private final Gson gson;
+    private final Gson gson = new Gson();
     private final String userToken;
-    private final Net net;
+    private final Net net = new Net();
     
     public Jrmapi() {
-        Authentication auth = new Authentication();
-        userToken = auth.userToken();
-        net = new Net();
-        gson = new Gson();
+        userToken = new Authentication().userToken();
+        createWorkdir();
+    }
+
+    public Jrmapi(String deviceToken) {
+        userToken = new Authentication().userToken(deviceToken);
+        createWorkdir();
+    }
+
+    private void createWorkdir() {
         File workdir = new File(Utils.WORKDIR);
         if (!workdir.exists()) {
             workdir.mkdir();
@@ -98,6 +102,16 @@ public class Jrmapi {
         }
     }
 
+    public File fetchZip(Document doc, String path) {
+        String response = net.get(LIST_DOCS, userToken, doc.getID());
+        List<Document> docs = gson.fromJson(response, new TypeToken<List<Document>>() {
+        }.getType());
+        File file = new File(path + doc.getVissibleName() + ".zip");
+        LOGGER.debug("Download zip to " + path + doc.getVissibleName() + ".zip");
+        net.getStream(docs.get(0).getBlobURLGet(), userToken, file);
+        return file;
+    }
+
     public void exportPdf(Document doc, String path, String filename) {
         String response = net.get(LIST_DOCS, userToken, doc.getID());
         List<Document> docs = gson.fromJson(response, new TypeToken<List<Document>>(){}.getType());
@@ -115,7 +129,7 @@ public class Jrmapi {
         }
     }
     
-    public void createDir(String name, String parentID) {
+    public String createDir(String name, String parentID) {
         String id = UUID.randomUUID().toString();
         UploadDocumentRequest docRequest = new UploadDocumentRequest();
         docRequest.setID(id);
@@ -141,6 +155,7 @@ public class Jrmapi {
         uploadMetadataDoc.add(metadataDoc);
         
         net.put(UPDATE_STATUS, userToken, uploadMetadataDoc);
+        return docResponse.get(0).getID();
     }
     
     public void uploadDoc(File file, String parentID) {

@@ -32,8 +32,10 @@ import java.util.UUID;
  */
 public class Authentication {
 
-    private static final String DEVICE_AUTH_URL = "https://my.remarkable.com/token/json/2/device/new";
-    private static final String USER_AUTH_URL = "https://my.remarkable.com/token/json/2/user/new";
+    private static final String DEVICE_AUTH_URL =
+            "https://webapp-production-dot-remarkable-production.appspot.com/token/json/2/device/new";
+    private static final String USER_AUTH_URL =
+            "https://webapp-production-dot-remarkable-production.appspot.com/token/json/2/user/new";
 
     private static final File RMAPI_PROPERTIES_FILE = new File(System.getProperty("user.home"), "/.rmapi");
     private static final String DEVICETOKEN_PROPERTY_NAME = "devicetoken";
@@ -63,6 +65,10 @@ public class Authentication {
      */
     public String userToken() {
         return net.post(USER_AUTH_URL, getDeviceToken());
+    }
+
+    public String userToken(String deviceToken) {
+        return net.post(USER_AUTH_URL, deviceToken);
     }
 
     protected String getDeviceToken() {

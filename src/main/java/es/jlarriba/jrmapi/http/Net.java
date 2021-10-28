@@ -1,5 +1,9 @@
 package es.jlarriba.jrmapi.http;
 
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.WRITE;
+
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,7 +125,7 @@ public class Net {
     private void sendRequest(HttpRequest request, File file) {
         try {
             LOGGER.debug(request.uri());
-            var response = client.send(request, BodyHandlers.ofFile(file.toPath()));
+            var response = client.send(request, BodyHandlers.ofFile(file.toPath(), CREATE, WRITE, TRUNCATE_EXISTING));
             LOGGER.debug(response.statusCode());
         } catch (IOException | InterruptedException e) {
             LOGGER.error("Error while launching request", e);
