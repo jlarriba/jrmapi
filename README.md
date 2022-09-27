@@ -7,7 +7,7 @@ It can be downloaded from Maven Central:
 <dependency>
     <groupId>es.jlarriba</groupId>
     <artifactId>jrmapi</artifactId>
-    <version>0.6</version>
+    <version>0.7</version>
 </dependency>
 ```
 
