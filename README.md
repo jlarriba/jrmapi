@@ -1,7 +1,7 @@
 # jrmapi
 jrmapi is a wrapper over the REST Cloud API for the reMarkable e-paper tablet implemented in Java11. It allows the access to the reMarkable files from a Java application via an easy-to-use API.
 
-It can be downloaded from Maven Central:
+It can be downloaded from [Maven Central](https://mvnrepository.com/artifact/es.jlarriba/jrmapi):
 
 ```xml
 <dependency>
